@@ -47,4 +47,8 @@ int16_t client_kill_server(service_com_handle_t hcom);
 */
 void client_set_backends(service_fs_t* fs, service_os_t* os, service_com_t* com);
 
+int16_t client_add(service_com_handle_t hcom, int* result, int a, int b);
+
+int16_t client_decode(service_com_handle_t hcom, char* out, uint32_t instr);
+
 #endif

@@ -1,6 +1,6 @@
 // app headers
 #include "template/server_com.h"
-
+#include "template/rv32im_decoder.h"
 // standard libraries
 #include <string.h>
 #include <stdio.h>
@@ -42,6 +42,28 @@ int server_process_cmd(service_com_handle_t hcom, uint8_t* buff, size_t len) {
         server_com->write(hcom, (void*)DRIVER_TEMPLATE_CMD_LINE_END, strlen(DRIVER_TEMPLATE_CMD_LINE_END));
       }
     } break;
+    case DRIVER_TEMPLATE_CMD_ADD: {
+      uint8_t* pos = (uint8_t*)strstr((char*)buff, DRIVER_TEMPLATE_CMD_LINE_END);
+      if(pos != NULL) {
+        int a = 0, b = 0;
+        if(sscanf((char*)&buff[1], "%d %d", &a, &b) == 2) {
+          char rsp[12];
+          snprintf(rsp, sizeof(rsp), "%011d", a + b);
+          server_com->write(hcom, rsp, 11);
+        }
+      }
+    } break;
+    case DRIVER_TEMPLATE_CMD_DECODE: {
+  if (len >= 7 && buff[5] == '\r' && buff[6] == '\n') {
+    uint32_t instr = (uint32_t)buff[1]
+                  | ((uint32_t)buff[2] << 8)
+                  | ((uint32_t)buff[3] << 16)
+                  | ((uint32_t)buff[4] << 24);
+    char rsp[DRIVER_TEMPLATE_DECODE_RSP_LEN] = { 0 };
+    rv32im_decode(instr, rsp, sizeof(rsp));
+    server_com->write(hcom, rsp, DRIVER_TEMPLATE_DECODE_RSP_LEN);
+  }
+} break;
 
     case DRIVER_TEMPLATE_CMD_KILL:
       // on kill, stop processing 

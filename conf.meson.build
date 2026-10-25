@@ -65,7 +65,7 @@ else
   client_lib_src = files('cli/src/client_com.c')
   server_lib_src = files('srv/src/server_com.c')
 endif
-
+server_lib_src += files('srv/src/rv32im_decoder.c')
 # (3.1) add sources common to both client and server
 # NOTE: if lpldgen is used, do not add it here, as it is handled automatically!
 common_src = files()

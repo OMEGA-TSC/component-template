@@ -21,6 +21,9 @@
 #define DRIVER_TEMPLATE_CMD_ECHO              (0x01)
 #define DRIVER_TEMPLATE_CMD_ECHO_MAX_LEN      (64)
 #define DRIVER_TEMPLATE_CMD_KILL              (0x02)
+#define DRIVER_TEMPLATE_CMD_ADD               (0x04)
+#define DRIVER_TEMPLATE_CMD_DECODE            (0x05)
+#define DRIVER_TEMPLATE_DECODE_RSP_LEN        (64)
 /*!
   @}
 */
